@@ -30,9 +30,11 @@ export function Home() {
     // Get asyncStorage data, use setSearchListData and setData
     try {
       const response = await AsyncStorage.getItem('@passmanager:logins');
-      const loadedLogins = response ? JSON.parse(response) : [];
-      setData(loadedLogins);
-      setSearchListData(loadedLogins);
+      if (response) {
+        const loadedLogins = JSON.parse(response);
+        setData(loadedLogins);
+        setSearchListData(loadedLogins);
+      }
     } catch (err) {
       console.log(err);
       Alert.alert('Não foi possível carregar os logins');
