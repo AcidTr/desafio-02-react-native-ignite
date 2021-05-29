@@ -3,44 +3,45 @@ import { render, fireEvent, waitFor } from '@testing-library/react-native';
 
 import { Home } from '../../screens/Home';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StorageDataProvider } from '../../hooks/useStorageData';
 
 jest.mock('@react-navigation/native', () => ({
-  useFocusEffect: jest.fn((callback) => callback())
-}))
+  useFocusEffect: jest.fn((callback) => callback()),
+}));
 
 describe('Home', () => {
   it('should be able to get data on async storage', async () => {
-    const spyGetItem = jest.spyOn(AsyncStorage, 'getItem')
-      .mockReturnValueOnce(
-        Promise.resolve(
-          JSON.stringify([
-            {
-              id: '0',
-              title: 'Rocketseat',
-              email: 'johndoe@example.com',
-              password: '123456'
-            }
-          ])
-        )
+    const spyGetItem = jest.spyOn(AsyncStorage, 'getItem').mockReturnValueOnce(
+      Promise.resolve(
+        JSON.stringify([
+          {
+            id: '0',
+            title: 'Rocketseat',
+            email: 'johndoe@example.com',
+            password: '123456',
+          },
+        ])
       )
-
-    const { findByText } = render(
-      <Home />
     );
 
-    expect(await findByText('johndoe@example.com')).toBeTruthy()
+    const { findByText } = render(
+      <StorageDataProvider>
+        <Home />
+      </StorageDataProvider>
+    );
+
+    expect(await findByText('johndoe@example.com')).toBeTruthy();
 
     expect(spyGetItem).toHaveBeenCalledWith('@passmanager:logins');
   });
 
   it('should be able to show message when list is empty', async () => {
-    jest.spyOn(AsyncStorage, 'getItem')
+    jest
+      .spyOn(AsyncStorage, 'getItem')
       .mockReturnValueOnce(Promise.resolve(null));
 
-    const { findByText } = render(
-      <Home />
-    );
+    const { findByText } = render(<Home />);
 
-    expect(await findByText('Nenhum item a ser mostrado')).toBeTruthy()
+    expect(await findByText('Nenhum item a ser mostrado')).toBeTruthy();
   });
-})
+});

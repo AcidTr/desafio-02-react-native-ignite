@@ -12,6 +12,7 @@ import {
   EmptyListMessage,
 } from './styles';
 import { Alert } from 'react-native';
+import { useStorageData } from '../../hooks/useStorageData';
 
 interface LoginDataProps {
   id: string;
@@ -23,15 +24,16 @@ interface LoginDataProps {
 type LoginListDataProps = LoginDataProps[];
 
 export function Home() {
+  const { getLogins } = useStorageData();
+
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
 
   async function loadData() {
     // Get asyncStorage data, use setSearchListData and setData
     try {
-      const response = await AsyncStorage.getItem('@passmanager:logins');
-      if (response) {
-        const loadedLogins = JSON.parse(response);
+      const loadedLogins = await getLogins();
+      if (loadedLogins) {
         setData(loadedLogins);
         setSearchListData(loadedLogins);
       }
