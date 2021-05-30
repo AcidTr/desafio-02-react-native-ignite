@@ -9,6 +9,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
 import { StorageDataProvider } from './src/hooks/useStorageData';
+import { ThemeProvider } from 'styled-components';
+import theme from './src/global/styles/theme';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,10 +23,12 @@ export default function App() {
   }
 
   return (
-    <StorageDataProvider>
-      <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>
-    </StorageDataProvider>
+    <ThemeProvider theme={theme}>
+      <StorageDataProvider>
+        <NavigationContainer>
+          <AppRoutes />
+        </NavigationContainer>
+      </StorageDataProvider>
+    </ThemeProvider>
   );
 }

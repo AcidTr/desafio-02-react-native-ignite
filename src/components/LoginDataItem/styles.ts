@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
 import Feather from '@expo/vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
+import theme from '../../global/styles/theme';
 
 export const Container = styled.View`
-  background-color: #FFFFFF;
+  background-color: ${({ theme }) => theme.colors.white};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -17,9 +18,9 @@ export const Container = styled.View`
 export const LoginData = styled.View``;
 
 export const Password = styled.Text`
-  font-size: ${(RFValue(26))}px;
+  font-size: ${RFValue(26)}px;
   font-family: 'Poppins_500Medium';
-  color: #9883BF;
+  color: ${({ theme }) => theme.colors.secondary};
 
   margin: 0 auto;
 `;
@@ -28,18 +29,18 @@ export const Title = styled.Text`
   margin-bottom: ${RFValue(4)}px;
   font-family: 'Poppins_500Medium';
   font-size: ${RFValue(12)}px;
-  color: #4E3975;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Email = styled.Text`
   font-family: 'Poppins_500Medium';
   font-size: ${RFValue(12)}px;
-  color: #9883BF;
+  color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const ShowPasswordButton = styled.TouchableOpacity``;
 
 export const Icon = styled(Feather).attrs({
   size: 24,
-  color: '#4E3975'
+  color: `${theme.colors.secondary}`,
 })``;
